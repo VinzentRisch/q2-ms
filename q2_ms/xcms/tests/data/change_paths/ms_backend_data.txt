@@ -1,0 +1,4 @@
+# MsBackendMzR
+"msLevel"	"rtime"	"acquisitionNum"	"dataOrigin"	"polarity"	"precScanNum"	"precursorMz"	"precursorIntensity"	"precursorCharge"	"collisionEnergy"	"peaksCount"	"totIonCurrent"	"basePeakMZ"	"basePeakIntensity"	"ionisationEnergy"	"lowMZ"	"highMZ"	"mergedScan"	"mergedResultScanNum"	"mergedResultStartScanNum"	"mergedResultEndScanNum"	"injectionTime"	"spectrumId"	"ionMobilityDriftTime"	"dataStorage"	"scanIndex"
+"1"	1	2551.457	33	"/Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/library/faahKO/cdf/KO/ko15.CDF"	-1	-1	-1	-1	-1	-1	1	950104	-1	-1	-1	-1	-1	-1	-1	-1	-1	-1	"scan=33"	-1	"/Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/library/faahKO/cdf/KO/ko15.CDF"	33
+"2"	1	2553.022	34	"/Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/library/faahKO/cdf/KO/ko15.CDF"	-1	-1	-1	-1	-1	-1	1	950831	-1	-1	-1	-1	-1	-1	-1	-1	-1	-1	"scan=34"	-1	"/Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/library/faahKO/cdf/KO/ko15.CDF"	34

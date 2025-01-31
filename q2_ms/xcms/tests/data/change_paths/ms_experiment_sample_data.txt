@@ -1,0 +1,3 @@
+"sample_name"	"sample_group"	"spectraOrigin"
+"1"	"ko15"	"KO"	"/Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/library/faahKO/cdf/KO/ko15.CDF"
+"2"	"ko16"	"KO"	"/Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/library/faahKO/cdf/KO/ko16.CDF"
