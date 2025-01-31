@@ -3,7 +3,7 @@ import shutil
 
 from qiime2.plugin.testing import TestPluginBase
 
-from q2_ms.xcms.utils import change_data_paths
+from q2_ms.xcms.utils import change_data_paths, create_fake_mzml_files
 
 
 class TestXCMSUtils(TestPluginBase):
@@ -43,3 +43,19 @@ class TestXCMSUtils(TestPluginBase):
             ) as f2,
         ):
             self.assertTrue(f1.read() == f2.read())
+
+    def test_create_fake_mzml_files(self):
+        xcms_experiment_path = self.get_data_path("change_paths")
+        create_fake_mzml_files(xcms_experiment_path)
+        self.assertTrue(
+            os.path.exists(
+                "/private/var/folders/nj/rfpdzc_90zl3555cttz236_w0000gp/T/qiime2/"
+                "rischv/data/d1f25fbd-f167-409d-9e42-f46dc3445d32/data/KO/ko15.CDF"
+            )
+        )
+        self.assertTrue(
+            os.path.exists(
+                "/private/var/folders/nj/rfpdzc_90zl3555cttz236_w0000gp/T/qiime2/"
+                "rischv/data/d1f25fbd-f167-409d-9e42-f46dc3445d32/data/KO/ko16.CDF"
+            )
+        )
