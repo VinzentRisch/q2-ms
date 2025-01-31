@@ -1,11 +1,11 @@
 import copy
 
-from q2_ms.types import XCMSExperimentDirFmt, mzMLDirFmt
+from q2_ms.types import XCMSExperimentDirFmt
 from q2_ms.utils import run_r_script
+from q2_ms.xcms.utils import create_fake_mzml_files
 
 
 def group_peaks_density(
-    spectra: mzMLDirFmt,
     xcms_experiment: XCMSExperimentDirFmt,
     bw: float = 30,
     min_fraction: float = 0.5,
@@ -15,6 +15,9 @@ def group_peaks_density(
     threads: int = 1,
     ms_level: int = 1,
 ) -> XCMSExperimentDirFmt:
+    # Create fake mzML files to make the xcms experiment object import possible
+    create_fake_mzml_files(str(xcms_experiment))
+
     # Create parameters dict
     params = copy.copy(locals())
 

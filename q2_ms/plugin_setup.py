@@ -258,7 +258,6 @@ plugin.methods.register_function(
 plugin.methods.register_function(
     function=group_peaks_density,
     inputs={
-        "spectra": SampleData[mzML],
         "xcms_experiment": XCMSExperiment % Properties("RT_adjusted"),
     },
     outputs=[("xcms_experiment_grouped", XCMSExperiment % Properties("Grouped"))],
@@ -272,7 +271,6 @@ plugin.methods.register_function(
         "threads": Int,
     },
     input_descriptions={
-        "spectra": "Spectra data as mzML files.",
         "xcms_experiment": "XCMSExperiment object with chromatographic peak "
         "information and adjusted retention time.",
     },

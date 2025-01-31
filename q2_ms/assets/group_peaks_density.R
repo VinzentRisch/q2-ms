@@ -8,7 +8,6 @@ library(optparse)
 
 # Define command-line options
 option_list <- list(
-  make_option(opt_str = "--spectra", type = "character"),
   make_option(opt_str = "--xcms_experiment", type = "character"),
   make_option(opt_str = "--bw", type = "numeric"),
   make_option(opt_str = "--min_fraction", type = "numeric"),
