@@ -42,9 +42,12 @@ if (opt$xcms_experiment == "rsd") {
       mad = FALSE
     )
 } else if (opt$xcms_experiment == "percent_missing") {
-    PercentMissingFilter(threshold = opt$threshold, f = opt$f)
+    filter <- PercentMissingFilter(
+      threshold = opt$threshold,
+      f = eval(parse(text = opt$f)),
+    )
 } else {
-    BlankFlag(
+    filter <- BlankFlag(
       threshold = opt$threshold,
       blankIndex = opt$blank_index,
       qcIndex = opt$qc_index,

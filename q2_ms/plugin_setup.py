@@ -26,6 +26,7 @@ from q2_ms.types._format import (
 )
 from q2_ms.types._type import XCMSExperiment
 from q2_ms.xcms.adjust_retention_time_obiwarp import adjust_retention_time_obiwarp
+from q2_ms.xcms.filter_features import filter_features
 from q2_ms.xcms.find_peaks_centwave import find_peaks_centwave
 from q2_ms.xcms.group_peaks_density import group_peaks_density
 
@@ -321,7 +322,7 @@ plugin.methods.register_function(
 )
 
 plugin.methods.register_function(
-    function=group_peaks_density,
+    function=filter_features,
     inputs={
         "xcms_experiment": XCMSExperiment % Properties("Grouped"),
     },
@@ -335,17 +336,12 @@ plugin.methods.register_function(
         "blank_index": Str,
         "na_rm": Bool,
         "mad": Bool,
-        "threads": Int,
     },
     input_descriptions={
-        "xcms_experiment": "XCMSExperiment object with chromatographic peak "
-        "information and adjusted retention time.",
+        "xcms_experiment": "XCMSExperiment object with detected features."
     },
     output_descriptions={
-        "xcms_experiment_grouped": (
-            "XCMSExperiment object with grouped chromatographic peak "
-            "information and adjusted retention time."
-        )
+        "xcms_experiment_filtered": ("XCMSExperiment object with filtered features.")
     },
     parameter_descriptions={
         "filter": (
@@ -360,7 +356,7 @@ plugin.methods.register_function(
         "threshold": (
             "Defines the threshold value for the selected filter. Default values "
             "depend on the chosen filter: \n"
-            "- 'rsd': 0.3 (maximum relative standard deviation in QC samples)\n"
+            "- 'rsd': 0.3 (maximum coefficient of variation in QC samples)\n"
             "- 'd-ratio': 0.5 (maximum dispersion ratio between QC and study)\n"
             "- 'percent-missing': 30 (maximum % of missing values per group)\n"
             "- 'blank-flag': 2 (multiple of mean abundance in blanks for filtering)"

@@ -32,3 +32,33 @@ def filter_features(
     run_r_script(params, "filter_features", "XCMS")
 
     return xcms_experiment
+
+
+def validate_parameters(
+    filter: str = None,
+    threshold: float = None,
+    f: str = None,
+    qc_index: str = None,
+    study_index: str = None,
+    blank_index: str = None,
+    na_rm: bool = True,
+    mad: bool = False,
+):
+    # Define valid parameter combinations for each filter
+    valid_combinations = {
+        "rsd": {"threshold", "qc_index", "na_rm", "mad"},
+        "d-ratio": {"threshold", "qc_index", "study_index", "na_rm", "mad"},
+        "percent-missing": {"threshold", "f"},
+        "blank-flag": {"threshold", "qc_index", "blank_index", "na_rm"},
+    }
+
+    # Store the provided parameters using locals()
+    provided_params = {k: v for k, v in locals().items() if k != "filter"}
+
+    # Check if any provided parameter is not allowed for the selected filter
+    for param, value in provided_params.items():
+        if value is not None and param not in valid_combinations[filter]:
+            raise ValueError(
+                f"The parameter '{param}' cannot be used in combination with the "
+                f"filter '{filter}'."
+            )
