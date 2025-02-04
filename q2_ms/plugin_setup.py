@@ -320,6 +320,96 @@ plugin.methods.register_function(
     ],
 )
 
+plugin.methods.register_function(
+    function=group_peaks_density,
+    inputs={
+        "xcms_experiment": XCMSExperiment % Properties("Grouped"),
+    },
+    outputs=[("xcms_experiment_filtered", XCMSExperiment % Properties("Grouped"))],
+    parameters={
+        "filter": Str % Choices(["rsd", "d-ratio", "percent-missing", "blank-flag"]),
+        "threshold": Float,
+        "f": Str,
+        "qc_index": Str,
+        "study_index": Str,
+        "blank_index": Str,
+        "na_rm": Bool,
+        "mad": Bool,
+        "threads": Int,
+    },
+    input_descriptions={
+        "xcms_experiment": "XCMSExperiment object with chromatographic peak "
+        "information and adjusted retention time.",
+    },
+    output_descriptions={
+        "xcms_experiment_grouped": (
+            "XCMSExperiment object with grouped chromatographic peak "
+            "information and adjusted retention time."
+        )
+    },
+    parameter_descriptions={
+        "filter": (
+            "Specifies the filtering method to be applied. Options include "
+            "'rsd' for filtering based on the relative standard deviation in "
+            "QC samples, 'd-ratio' for filtering based on the dispersion ratio "
+            "between QC and study samples, 'percent-missing' for filtering based "
+            "on the percentage of missing values in sample groups, and "
+            "'blank-flag' for identifying features that may result from "
+            "contamination in blank samples."
+        ),
+        "threshold": (
+            "Defines the threshold value for the selected filter. Default values "
+            "depend on the chosen filter: \n"
+            "- 'rsd': 0.3 (maximum relative standard deviation in QC samples)\n"
+            "- 'd-ratio': 0.5 (maximum dispersion ratio between QC and study)\n"
+            "- 'percent-missing': 30 (maximum % of missing values per group)\n"
+            "- 'blank-flag': 2 (multiple of mean abundance in blanks for filtering)"
+        ),
+        "f": (
+            "A vector indicating the sample group for each sample. This is used "
+            "in 'percent-missing' to determine the percentage of missing values "
+            "within each group."
+        ),
+        "qc_index": (
+            "A logical vector indicating which samples are Quality Control (QC) "
+            "samples. This is used in 'rsd' and 'd-ratio' to calculate the "
+            "relative standard deviation and dispersion ratio, respectively."
+        ),
+        "study_index": (
+            "A logical vector indicating which samples are study samples. This is "
+            "used in 'd-ratio' to calculate the dispersion ratio between QC and "
+            "study samples."
+        ),
+        "blank_index": (
+            "A logical vector indicating which samples are blank samples. This is "
+            "used in 'blank-flag' to identify features that may result from "
+            "contamination in the solvent of the samples."
+        ),
+        "na_rm": (
+            "A logical value indicating whether to remove features with missing "
+            "values. Default is TRUE for 'rsd', 'd-ratio', and 'blank-flag'."
+        ),
+        "mad": (
+            "A logical value indicating whether to use the median absolute "
+            "deviation (MAD) for robust estimation of variability. Default is "
+            "FALSE for 'rsd' and 'd-ratio'."
+        ),
+    },
+    name="Feature filtering based on sample characteristics",
+    description=(
+        "This method filters detected features based on their characteristics across "
+        "different sample groups. It applies user-defined thresholds to exclude "
+        "features that exhibit excessive variability in QC samples, imbalanced "
+        "presence across study groups, or potential contamination from blank samples. "
+        "This action uses the filterFeatures() function of the XCMS package."
+    ),
+    citations=[
+        citations["kosters2018pymzml"],
+        citations["smith2006xcms"],
+        citations["msexperiment2024"],
+    ],
+)
+
 # Registrations
 plugin.register_semantic_types(
     mzML,
