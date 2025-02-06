@@ -10,9 +10,10 @@ def filter_features(
     filter: str = None,
     threshold: float = None,
     f: str = None,
-    qc_index: str = None,
-    study_index: str = None,
-    blank_index: str = None,
+    qc_label: str = "qc",
+    study_label: str = "study",
+    blank_label: str = "blank",
+    sample_metadata_column: str = None,
     na_rm: bool = True,
     mad: bool = False,
 ) -> XCMSExperimentDirFmt:
@@ -38,18 +39,32 @@ def validate_parameters(
     filter: str = None,
     threshold: float = None,
     f: str = None,
-    qc_index: str = None,
-    study_index: str = None,
-    blank_index: str = None,
+    qc_label: str = None,
+    study_label: str = None,
+    blank_label: str = None,
+    sample_metadata_column: str = None,
     na_rm: bool = True,
     mad: bool = False,
 ):
     # Define valid parameter combinations for each filter
     valid_combinations = {
-        "rsd": {"threshold", "qc_index", "na_rm", "mad"},
-        "d-ratio": {"threshold", "qc_index", "study_index", "na_rm", "mad"},
+        "rsd": {"threshold", "qc_label", "na_rm", "mad", "sample_metadata_column"},
+        "d-ratio": {
+            "threshold",
+            "qc_label",
+            "study_label",
+            "na_rm",
+            "mad",
+            "sample_metadata_column",
+        },
         "percent-missing": {"threshold", "f"},
-        "blank-flag": {"threshold", "qc_index", "blank_index", "na_rm"},
+        "blank-flag": {
+            "threshold",
+            "qc_label",
+            "blank_label",
+            "na_rm",
+            "sample_metadata_column",
+        },
     }
 
     # Store the provided parameters using locals()

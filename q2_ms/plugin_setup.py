@@ -331,9 +331,10 @@ plugin.methods.register_function(
         "filter": Str % Choices(["rsd", "d-ratio", "percent-missing", "blank-flag"]),
         "threshold": Float,
         "f": Str,
-        "qc_index": Str,
-        "study_index": Str,
-        "blank_index": Str,
+        "qc_label": Str,
+        "study_label": Str,
+        "blank_label": Str,
+        "sample_metadata_column": Str,
         "na_rm": Bool,
         "mad": Bool,
     },
@@ -341,7 +342,7 @@ plugin.methods.register_function(
         "xcms_experiment": "XCMSExperiment object with detected features."
     },
     output_descriptions={
-        "xcms_experiment_filtered": ("XCMSExperiment object with filtered features.")
+        "xcms_experiment_filtered": "XCMSExperiment object with filtered features."
     },
     parameter_descriptions={
         "filter": (
@@ -366,29 +367,19 @@ plugin.methods.register_function(
             "in 'percent-missing' to determine the percentage of missing values "
             "within each group."
         ),
-        "qc_index": (
-            "A logical vector indicating which samples are Quality Control (QC) "
-            "samples. This is used in 'rsd' and 'd-ratio' to calculate the "
-            "relative standard deviation and dispersion ratio, respectively."
-        ),
-        "study_index": (
-            "A logical vector indicating which samples are study samples. This is "
-            "used in 'd-ratio' to calculate the dispersion ratio between QC and "
-            "study samples."
-        ),
-        "blank_index": (
-            "A logical vector indicating which samples are blank samples. This is "
-            "used in 'blank-flag' to identify features that may result from "
-            "contamination in the solvent of the samples."
+        "qc_label": ("The label used to mark QC samples in the sample metadata."),
+        "study_label": ("The label used to mark study samples in the sample metadata."),
+        "blank_label": ("The label used to mark blank samples in the sample metadata."),
+        "sample_metadata_column": (
+            "The sample metadata column that specifies the sample types."
         ),
         "na_rm": (
-            "A logical value indicating whether to remove features with missing "
-            "values. Default is TRUE for 'rsd', 'd-ratio', and 'blank-flag'."
+            "Whether missing values 'NA' should be removed prior to the calculations."
         ),
         "mad": (
-            "A logical value indicating whether to use the median absolute "
-            "deviation (MAD) for robust estimation of variability. Default is "
-            "FALSE for 'rsd' and 'd-ratio'."
+            "Whether the 'Median Absolute Deviation' (MAD) should be used instead of "
+            "the standard deviation. This is suggested for non-gaussian distributed "
+            "data."
         ),
     },
     name="Feature filtering based on sample characteristics",
