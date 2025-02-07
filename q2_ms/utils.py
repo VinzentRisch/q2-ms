@@ -24,7 +24,8 @@ def run_r_script(params, script_name, package_name):
     cmd = ["/usr/local/bin/Rscript", "--vanilla", script_path]
 
     for key, value in params.items():
-        cmd.extend([f"--{key}", str(value)])
+        if value is not None:
+            cmd.extend([f"--{key}", str(value)])
 
     # Add /usr/local/bin to PATH to use system installation of Rscript
     env = os.environ.copy()

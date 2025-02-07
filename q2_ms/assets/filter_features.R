@@ -20,11 +20,9 @@ option_list <- list(
   make_option(opt_str = "--mad", type = "logical"),
   make_option(opt_str = "--output_path", type = "character")
 )
-
 # Parse arguments
 optParser <- OptionParser(option_list = option_list)
 opt <- parse_args(optParser)
-
 XCMSExperiment <- readMsObject(XcmsExperiment(), PlainTextParam(opt$xcms_experiment))
 
 if (opt$xcms_experiment == "rsd") {
