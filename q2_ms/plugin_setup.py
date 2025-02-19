@@ -342,16 +342,16 @@ plugin.methods.register_function(
     },
     outputs=[("xcms_experiment_grouped", XCMSExperiment % Properties("Grouped"))],
     parameters={
-        "bw": Float,
-        "min_fraction": Float,
-        "min_samples": Float,
-        "bin_size": Float,
-        "max_features": Float,
+        "bw": Float % Range(0, None),
+        "min_fraction": Float % Range(0, 1, inclusive_end=True),
+        "min_samples": Float % Range(0, None),
+        "bin_size": Float % Range(0, None),
+        "max_features": Float % Range(0, None),
         "ppm": Float,
         "sample_metadata_column": Str,
-        "ms_level": Int,
         "add": Bool,
-        "threads": Int,
+        "ms_level": Int % Range(1, 3),
+        "threads": Int % Range(1, None),
     },
     input_descriptions={
         "xcms_experiment": "XCMSExperiment object with chromatographic peak "

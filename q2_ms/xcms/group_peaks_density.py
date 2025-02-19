@@ -24,7 +24,7 @@ def group_peaks_density(
     # Create parameters dict
     params = copy.copy(locals())
 
-    # Innit XCMSExperimentDirFmt
+    # Init XCMSExperimentDirFmt
     xcms_experiment = XCMSExperimentDirFmt()
 
     # Add output path to params
