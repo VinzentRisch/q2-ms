@@ -366,7 +366,7 @@ plugin.methods.register_function(
         "xcms_experiment": "XCMSExperiment object with chromatographic peaks.",
     },
     output_descriptions={
-        "xcms_experiment_features": ("XCMSExperiment object with features.")
+        "xcms_experiment_features": "XCMSExperiment object with features."
     },
     parameter_descriptions={
         "bw": (
