@@ -360,7 +360,6 @@ plugin.methods.register_function(
         "sample_metadata_column": Str,
         "add": Bool,
         "ms_level": Int % Range(1, 3),
-        "threads": Int % Range(1, None),
     },
     input_descriptions={
         "xcms_experiment": "XCMSExperiment object with chromatographic peaks.",
@@ -409,9 +408,6 @@ plugin.methods.register_function(
             "different MS level) and add features to the already present feature "
             "definitions. Per default any additional grouping will remove previous "
             "results."
-        ),
-        "threads": (
-            "Defines the local weight applied to diagonal moves in the alignment."
         ),
     },
     name="Correspondence based on density",

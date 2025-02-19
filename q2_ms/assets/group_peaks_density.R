@@ -17,7 +17,6 @@ option_list <- list(
   make_option(opt_str = "--ppm", type = "numeric"),
   make_option(opt_str = "--sample_metadata_column", type = "character"),
   make_option(opt_str = "--add", type = "logical"),
-  make_option(opt_str = "--threads", type = "integer"),
   make_option(opt_str = "--output_path", type = "character"),
   make_option(opt_str = "--ms_level", type = "integer")
 )

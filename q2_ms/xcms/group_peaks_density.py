@@ -16,7 +16,6 @@ def group_peaks_density(
     sample_metadata_column: str = None,
     ms_level: int = 1,
     add: bool = False,
-    threads: int = 1,
 ) -> XCMSExperimentDirFmt:
     # Create fake mzML files to make the xcms experiment object import possible
     create_fake_mzml_files(str(xcms_experiment))
