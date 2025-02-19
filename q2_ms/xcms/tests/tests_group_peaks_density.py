@@ -30,7 +30,7 @@ class TestGroupPeaksDensity(TestPluginBase):
         )
         features_exp = pd.read_csv(
             self.get_data_path(
-                "xcms_experiement_features/xcms_experiment_feature_definitions.txt"
+                "xcms_experiment_features/xcms_experiment_feature_definitions.txt"
             ),
             sep="\t",
             index_col=0,
