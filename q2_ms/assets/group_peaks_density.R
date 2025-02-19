@@ -28,8 +28,16 @@ opt <- parse_args(optParser)
 
 XCMSExperiment <- readMsObject(XcmsExperiment(), PlainTextParam(opt$xcms_experiment))
 
+# Set sampleGroups parameter
+if (!is.null(opt$sampleGroups)) {
+  sampleGroups <- rep(1, length(fileNames(XCMSExperiment)))
+} else {
+  sampleGroups <- sampleData(XCMSExperiment)[[opt$sample_metadata_column]]
+}
+
 # Set parameters
 DensityParams <- PeakDensityParam(
+  sampleGroups = sampleGroups,
   bw = opt$bw,
   minFraction = opt$min_fraction,
   minSamples = opt$min_samples,
@@ -38,18 +46,12 @@ DensityParams <- PeakDensityParam(
   ppm = opt$ppm
 )
 
-if (!is.null(opt$sampleGroups)) {
-  DensityParams@sampleGroups <- rep(1, length(fileNames(XCMSExperiment)))
-} else {
-  DensityParams@sampleGroups <- sampleData(XCMSExperiment)[[opt$sample_metadata_column]]
-}
-
 # Find features
 XCMSExperiment <- groupChromPeaks(
   object = XCMSExperiment,
   param = DensityParams,
   msLevel = opt$ms_level,
-  add = opt$add,
+  add = opt$add
 )
 
 # Export the XCMSExperiment object to the directory format

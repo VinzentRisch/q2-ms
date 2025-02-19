@@ -1,0 +1,5 @@
+"sample_name"	"sample_group"	"sample_type"	"spectraOrigin"
+"1"	"ko15"	"KO"	"QC"	"/Users/rischv/Documents/repo/q2-ms/q2_ms/xcms/tests/data/faahKO/ko15.mzML"
+"2"	"ko16"	"KO"	"study"	"/Users/rischv/Documents/repo/q2-ms/q2_ms/xcms/tests/data/faahKO/ko16.mzML"
+"3"	"wt21"	"WT"	"QC"	"/Users/rischv/Documents/repo/q2-ms/q2_ms/xcms/tests/data/faahKO/wt21.mzML"
+"4"	"wt22"	"WT"	"study"	"/Users/rischv/Documents/repo/q2-ms/q2_ms/xcms/tests/data/faahKO/wt22.mzML"
