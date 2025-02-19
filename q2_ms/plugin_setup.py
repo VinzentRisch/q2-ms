@@ -347,7 +347,10 @@ plugin.methods.register_function(
         "min_samples": Float,
         "bin_size": Float,
         "max_features": Float,
+        "ppm": Float,
+        "sample_metadata_column": Str,
         "ms_level": Int,
+        "add": Bool,
         "threads": Int,
     },
     input_descriptions={
@@ -374,14 +377,33 @@ plugin.methods.register_function(
             "With the minimum number of samples in at least one sample group in which "
             "the peaks have to be detected to be considered a peak group (feature)."
         ),
-        "bin_size": ("Defining the size of the overlapping slices in mz dimension."),
+        "bin_size": "Defining the size of the overlapping slices in mz dimension.",
         "max_features": (
             "The maximum number of peak groups to be identified in a single mz slice."
+        ),
+        "sample_metadata_column": (
+            "The name of the sample metadata column that defines the sample groups. "
+            "Per default all samples are added to the same group."
+        ),
+        "ppm": (
+            "To define m/z-dependent, increasing m/z bin sizes. If ‘ppm = 0’ (the "
+            "default) m/z bins are defined by the sequence of values from the smallest "
+            "to the larges m/z value with a constant bin size of ‘bin-size’. For ‘ppm’ "
+            "> 0 the size of each bin is increased in addition by the ‘ppm’ of the "
+            "(upper) m/z boundary of the bin. The maximal bin size (used for the "
+            "largest m/z values) would then be ‘bin-size’ plus ‘ppm’ parts-per-million "
+            "of the largest m/z value of all peaks in the data set."
         ),
         "ms_level": (
             "defining the MS level on which the correspondence should be performed. "
             "It is required that chromatographic peaks of the respective MS level are "
             "present."
+        ),
+        "add": (
+            "Allowing to perform an additional round of correspondence (e.g. on a "
+            "different MS level) and add features to the already present feature "
+            "definitions. Per default any additional grouping will remove previous "
+            "results."
         ),
         "threads": (
             "Defines the local weight applied to diagonal moves in the alignment."
