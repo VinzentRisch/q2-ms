@@ -335,12 +335,21 @@ plugin.methods.register_function(
     ],
 )
 
+I_group, O_group = TypeMap(
+    {
+        XCMSExperiment % Properties("peaks"): XCMSExperiment % Properties("features"),
+        XCMSExperiment
+        % Properties("peaks", "rt-adjusted"): XCMSExperiment
+        % Properties("features", "rt-adjusted"),
+    }
+)
+
 plugin.methods.register_function(
     function=group_peaks_density,
     inputs={
-        "xcms_experiment": XCMSExperiment % Properties("RT_adjusted"),
+        "xcms_experiment": I_group,
     },
-    outputs=[("xcms_experiment_grouped", XCMSExperiment % Properties("Grouped"))],
+    outputs=[("xcms_experiment_features", O_group)],
     parameters={
         "bw": Float % Range(0, None),
         "min_fraction": Float % Range(0, 1, inclusive_end=True),
@@ -354,14 +363,10 @@ plugin.methods.register_function(
         "threads": Int % Range(1, None),
     },
     input_descriptions={
-        "xcms_experiment": "XCMSExperiment object with chromatographic peak "
-        "information and adjusted retention time.",
+        "xcms_experiment": "XCMSExperiment object with chromatographic peaks.",
     },
     output_descriptions={
-        "xcms_experiment_grouped": (
-            "XCMSExperiment object with grouped chromatographic peak "
-            "information and adjusted retention time."
-        )
+        "xcms_experiment_features": ("XCMSExperiment object with features.")
     },
     parameter_descriptions={
         "bw": (
