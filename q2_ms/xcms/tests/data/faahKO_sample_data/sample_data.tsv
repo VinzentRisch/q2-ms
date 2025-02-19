@@ -1,0 +1,5 @@
+sample_name	sample_group	sample_type
+ko15	KO	QC
+ko16	KO	study
+wt21	WT	QC
+wt22	WT	study
