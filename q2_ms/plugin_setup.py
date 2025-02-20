@@ -6,7 +6,17 @@
 # The full license is in the file LICENSE, distributed with this software.
 # ----------------------------------------------------------------------------
 from q2_types.sample_data import SampleData
-from qiime2.core.type import Bool, Choices, Float, Int, Properties, Range, Str, TypeMap
+from qiime2.core.type import (
+    Bool,
+    Choices,
+    Float,
+    Int,
+    Properties,
+    Range,
+    Str,
+    TypeMap,
+    TypeMatch,
+)
 from qiime2.plugin import Citations, Plugin
 
 from q2_ms import __version__
@@ -424,12 +434,21 @@ plugin.methods.register_function(
     ],
 )
 
+T_filter_features = TypeMatch(
+    [
+        XCMSExperiment % Properties("features"),
+        XCMSExperiment % Properties("features", "rt-adjusted"),
+        XCMSExperiment % Properties("filled"),
+        XCMSExperiment % Properties("filled", "rt-adjusted"),
+    ]
+)
+
 plugin.methods.register_function(
     function=filter_features,
     inputs={
-        "xcms_experiment": XCMSExperiment % Properties("Grouped"),
+        "xcms_experiment": T_filter_features,
     },
-    outputs=[("xcms_experiment_filtered", XCMSExperiment % Properties("Grouped"))],
+    outputs=[("xcms_experiment_filtered", T_filter_features)],
     parameters={
         "filter": Str % Choices(["rsd", "d-ratio", "percent-missing", "blank-flag"]),
         "threshold": Float,
