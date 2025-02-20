@@ -11,7 +11,7 @@ option_list <- list(
   make_option(opt_str = "--xcms_experiment", type = "character"),
   make_option(opt_str = "--filter", type = "character"),
   make_option(opt_str = "--threshold", type = "numeric"),
-  make_option(opt_str = "--f", type = "character"),
+  make_option(opt_str = "--exclude", type = "character"),
   make_option(opt_str = "--qc_label", type = "character"),
   make_option(opt_str = "--study_label", type = "character"),
   make_option(opt_str = "--blank_label", type = "character"),
@@ -39,9 +39,14 @@ if (opt$xcms_experiment == "rsd") {
       mad = opt$mad
     )
 } else if (opt$xcms_experiment == "percent_missing") {
-    filter <- PercentMissingFilter(
-      f = eval(parse(text = opt$f)),
-    )
+    f <- sampleData(XCMSExperiment)[[opt$sample_metadata_column]]
+    if (opt$exclude == TRUE){
+        f[f == opt$qc_label] <- NA
+    }
+    else if (opt$exclude == FALSE){
+        f[f != opt$qc_label] <- NA
+    }
+    filter <- PercentMissingFilter(f = f)
 } else {
     filter <- BlankFlag(
       blankIndex = sampleData(XCMSExperiment)[[opt$sample_metadata_column]] == opt$blank_label,
@@ -49,8 +54,7 @@ if (opt$xcms_experiment == "rsd") {
       na.rm = opt$na_rm,
     )
 }
-print(opt)
-print(filter)
+
 if (!is.null(opt$threshold)) filter@threshold <- opt$threshold
 # Filter features
 XCMSExperiment <- filterFeatures(object = XCMSExperiment, filter = filter)

@@ -9,7 +9,7 @@ def filter_features(
     xcms_experiment: XCMSExperimentDirFmt,
     filter: str = None,
     threshold: float = None,
-    f: str = None,
+    exclude: bool = None,
     qc_label: str = "qc",
     study_label: str = "study",
     blank_label: str = "blank",
@@ -57,7 +57,12 @@ def validate_parameters(
             "mad",
             "sample_metadata_column",
         },
-        "percent-missing": {"threshold", "f"},
+        "percent-missing": {
+            "threshold",
+            "exclude",
+            "qc_label",
+            "sample_metadata_column",
+        },
         "blank-flag": {
             "threshold",
             "qc_label",

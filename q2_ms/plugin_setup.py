@@ -433,7 +433,7 @@ plugin.methods.register_function(
     parameters={
         "filter": Str % Choices(["rsd", "d-ratio", "percent-missing", "blank-flag"]),
         "threshold": Float,
-        "f": Str,
+        "exclude": Bool,
         "qc_label": Str,
         "study_label": Str,
         "blank_label": Str,
@@ -449,40 +449,72 @@ plugin.methods.register_function(
     },
     parameter_descriptions={
         "filter": (
-            "Specifies the filtering method to be applied. Options include "
-            "'rsd' for filtering based on the relative standard deviation in "
-            "QC samples, 'd-ratio' for filtering based on the dispersion ratio "
-            "between QC and study samples, 'percent-missing' for filtering based "
-            "on the percentage of missing values in sample groups, and "
-            "'blank-flag' for identifying features that may result from "
-            "contamination in blank samples."
+            "Specifies the filtering method to be applied. Options include: 'rsd': "
+            "Calculates the relative standard deviation (i.e. coefficient of "
+            "variation) in abundance for each feature in QC (Quality Control) samples "
+            "and filters them in the input object according to a provided threshold. "
+            "'d-ratio': Computes the D-ratio or dispersion ratio, defined as the "
+            "standard deviation in abundance for QC samples divided by the standard "
+            "deviation for biological test samples, for each feature and filters them "
+            "according to a provided threshold. 'percent-missing': Determines the "
+            "percentage of missing values for each feature in the various sample "
+            "groups and filters them according to a provided threshold. 'blank-flag': "
+            "Identifies features where the mean abundance in test samples is lower "
+            "than a specified multiple of the mean abundance of blank samples. This "
+            "can be used to flag features that result from contamination in the "
+            "solvent of the samples. A new column possible_contaminants is added to "
+            "the 'xcms_experiment_feature_definitions.txt' file reflecting this."
         ),
         "threshold": (
             "Defines the threshold value for the selected filter. Default values "
-            "depend on the chosen filter: \n"
-            "- 'rsd': 0.3 (maximum coefficient of variation in QC samples)\n"
-            "- 'd-ratio': 0.5 (maximum dispersion ratio between QC and study)\n"
-            "- 'percent-missing': 30 (maximum % of missing values per group)\n"
-            "- 'blank-flag': 2 (multiple of mean abundance in blanks for filtering)"
+            "depend on the chosen filter. 'rsd': (0.3) Features with a coefficient of "
+            "variation strictly higher (>) than this will be removed from the entire "
+            "dataset. 'd-ratio': (0.5) Features with a D-ratio strictly higher (>) "
+            "than this will be removed from the entire dataset. 'percent-missing': "
+            "(30) Percentage (between 0 and 100) of accepted missing values for a "
+            "feature in one sample group. 'blank-flag': (2) Indicates the minimum "
+            "difference required between the mean abundance of a feature in samples "
+            "compared to the mean abundance of the same feature in blanks for it to "
+            "not be considered a possible contaminant. For example, the default "
+            "threshold of 2 signifies that the mean abundance of the features in "
+            "samples has to be at least twice the mean abundance in blanks for it to "
+            "not be flagged as a possible contaminant."
         ),
-        "f": (
-            "A vector indicating the sample group for each sample. This is used "
-            "in 'percent-missing' to determine the percentage of missing values "
-            "within each group."
+        "exclude": (
+            "Can be provided for 'percent-missing' filter. Has to be used in "
+            "combination with the parameter 'qc-label'. The filter 'percent-missing' "
+            "computes the percentage of missing values per sample group and filters "
+            "features based on this. Setting 'exclude' = False bases this quality "
+            "assessment and filtering only on QC samples. Setting 'exclude' = False "
+            "bases this quality assessment and filtering on all other sample groups "
+            "excluding QC samples. If 'exclude' and 'qc-label' are not specified, "
+            "quality assessment and filtering is done on all sample groups."
         ),
-        "qc_label": ("The label used to mark QC samples in the sample metadata."),
-        "study_label": ("The label used to mark study samples in the sample metadata."),
-        "blank_label": ("The label used to mark blank samples in the sample metadata."),
+        "qc_label": (
+            "Has to be provided for 'rsd', 'd-ratio' and 'blank-flag' filters. Can be "
+            "provided for 'percent-missing' filter. The label used to mark QC samples "
+            "in the sample metadata."
+        ),
+        "study_label": (
+            "Has to be provided for the 'd-ratio' filter. The label used to mark study "
+            "samples in the sample metadata."
+        ),
+        "blank_label": (
+            "Has to be provided for the 'blank-flag' filter. The label used to mark "
+            "blank samples in the sample metadata."
+        ),
         "sample_metadata_column": (
-            "The sample metadata column that specifies the sample types."
+            "Has to be provided for all filters. The sample metadata column that "
+            "specifies the sample types or sample groups."
         ),
         "na_rm": (
-            "Whether missing values 'NA' should be removed prior to the calculations."
+            "Has to be provided for 'rsd', 'd-ratio' and 'blank-flag' filters. Whether "
+            "missing values 'NA' should be removed prior to the calculations."
         ),
         "mad": (
-            "Whether the 'Median Absolute Deviation' (MAD) should be used instead of "
-            "the standard deviation. This is suggested for non-gaussian distributed "
-            "data."
+            "Has to be provided for 'rsd', and 'd-ratio' filters. Whether the 'Median "
+            "Absolute Deviation' (MAD) should be used instead of the standard "
+            "deviation. This is suggested for non-gaussian distributed data."
         ),
     },
     name="Feature filtering based on sample characteristics",
