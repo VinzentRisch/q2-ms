@@ -10,9 +10,9 @@ def filter_features(
     filter: str = None,
     threshold: float = None,
     exclude: bool = None,
-    qc_label: str = "qc",
-    study_label: str = "study",
-    blank_label: str = "blank",
+    qc_label: str = None,
+    study_label: str = None,
+    blank_label: str = None,
     sample_metadata_column: str = None,
     na_rm: bool = True,
     mad: bool = False,
@@ -38,14 +38,17 @@ def filter_features(
 def validate_parameters(
     filter: str = None,
     threshold: float = None,
-    f: str = None,
+    exclude: str = None,
     qc_label: str = None,
     study_label: str = None,
     blank_label: str = None,
     sample_metadata_column: str = None,
-    na_rm: bool = True,
-    mad: bool = False,
+    na_rm: bool = None,
+    mad: bool = None,
 ):
+    # Store the provided parameters using locals()
+    parameters = {k: v for k, v in locals().items() if k != "filter"}
+
     # Define valid parameter combinations for each filter
     valid_combinations = {
         "rsd": {"threshold", "qc_label", "na_rm", "mad", "sample_metadata_column"},
@@ -72,13 +75,22 @@ def validate_parameters(
         },
     }
 
-    # Store the provided parameters using locals()
-    provided_params = {k: v for k, v in locals().items() if k != "filter"}
-
     # Check if any provided parameter is not allowed for the selected filter
-    for param, value in provided_params.items():
+    for param, value in parameters.items():
         if value is not None and param not in valid_combinations[filter]:
             raise ValueError(
                 f"The parameter '{param}' cannot be used in combination with the "
                 f"filter '{filter}'."
+            )
+    if filter == "percent-missing":
+        parameters_percent_missing = [exclude, qc_label, sample_metadata_column]
+
+        if not (
+            all(param is None for param in parameters_percent_missing)
+            or all(param is not None for param in parameters_percent_missing)
+        ):
+            raise ValueError(
+                "If the percent-missing filter is used, the parameters 'exclude', "
+                "'qc-label' and 'sample-metadata-column' have to be used in "
+                "combination or not at all."
             )

@@ -527,13 +527,15 @@ plugin.methods.register_function(
             "specifies the sample types or sample groups."
         ),
         "na_rm": (
-            "Has to be provided for 'rsd', 'd-ratio' and 'blank-flag' filters. Whether "
-            "missing values 'NA' should be removed prior to the calculations."
+            "Can be provided for 'rsd', 'd-ratio' and 'blank-flag' filters. Is True "
+            "per default. Whether missing values 'NA' should be removed prior to the "
+            "calculations."
         ),
         "mad": (
-            "Has to be provided for 'rsd', and 'd-ratio' filters. Whether the 'Median "
-            "Absolute Deviation' (MAD) should be used instead of the standard "
-            "deviation. This is suggested for non-gaussian distributed data."
+            "Has to be provided for 'rsd', and 'd-ratio' filters. Is False per "
+            "default. Whether the 'Median Absolute Deviation' (MAD) should be used "
+            "instead of the standard deviation. This is suggested for non-gaussian "
+            "distributed data."
         ),
     },
     name="Feature filtering based on sample characteristics",
